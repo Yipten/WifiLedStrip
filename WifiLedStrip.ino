@@ -10,15 +10,15 @@ const char* ssid = SSID;
 const char* password = PASSWORD;
 
 // LED strip variables
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_RGB + NEO_KHZ800);
-const uint32_t off = strip.Color(0, 0, 0);
-const uint32_t red = strip.Color(0, 255, 0);
-const uint32_t orange = strip.Color(0, 255, 63);
-const uint32_t yellow = strip.Color(0, 255, 127);
-const uint32_t green = strip.Color(0, 0, 255);
-const uint32_t blue = strip.Color(255, 0, 0);
-const uint32_t purple = strip.Color(255, 255, 0);
-const uint32_t white = strip.Color(255, 255, 255);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
+uint32_t off = strip.Color(0, 0, 0);
+uint32_t red = strip.Color(255, 0, 0);
+uint32_t orange = strip.Color(0, 255, 63);
+uint32_t yellow = strip.Color(0, 255, 127);
+uint32_t green = strip.Color(0, 255, 0);
+uint32_t blue = strip.Color(0, 0, 255);
+uint32_t purple = strip.Color(255, 255, 0);
+uint32_t white = strip.Color(255, 255, 255);
 
 void handleNotFound() {
 	server.send(404, "text/html", "<h1>404: not found</h1>");
@@ -26,13 +26,28 @@ void handleNotFound() {
 
 void handleRoot() {
 	// get whether all LEDs should be on or off
-	bool allOn = server.arg("allOn").toInt();
+	uint8_t color = server.arg("color").toInt();
 	// update LEDs
+	uint32_t* rgb;
+	switch (color) {
+		case 1:
+			rgb = &red;
+			break;
+		case 2:
+			rgb = &green;
+			break;
+		case 3:
+			rgb = &blue;
+			break;
+		default:
+			rgb = &off;
+			break;
+	}
 	for (byte i = 0; i < NUM_LEDS; i++)
-		strip.setPixelColor(i, allOn ? red : off);
+		strip.setPixelColor(i, *rgb);
 	strip.show();
 	// send HTTP response
-	server.send(200, "text/html", "<form action=\".\" method=\"get\"><input type=\"submit\" value=\"0\" name=\"allOn\"/><br><input type=\"submit\" value=\"1\" name=\"allOn\"/></form>");
+	server.send(200, "text/html", "<form action=\".\" method=\"get\">	<button type=\"submit\" value=\"0\" name=\"color\">off</button><br>	<button type=\"submit\" value=\"1\" name=\"color\">red</button><br>	<button type=\"submit\" value=\"2\" name=\"color\">green</button><br>	<button type=\"submit\" value=\"3\" name=\"color\">blue</button>	</form>");
 }
 
 void setup() {
