@@ -10,7 +10,7 @@ const char* ssid = SSID;
 const char* password = PASSWORD;
 
 // LED strip variables
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_RGB + NEO_KHZ800);
 const uint32_t off = strip.Color(0, 0, 0);
 const uint32_t red = strip.Color(0, 255, 0);
 const uint32_t orange = strip.Color(0, 255, 63);
@@ -25,7 +25,14 @@ void handleNotFound() {
 }
 
 void handleRoot() {
-	// TODO: manage GET requests here
+	// get whether all LEDs should be on or off
+	bool allOn = server.arg("allOn").toInt();
+	// update LEDs
+	for (byte i = 0; i < NUM_LEDS; i++)
+		strip.setPixelColor(i, allOn ? red : off);
+	strip.show();
+	// send HTTP response
+	server.send(200, "text/html", "<form action=\".\" method=\"get\"><input type=\"submit\" value=\"0\" name=\"allOn\"/><br><input type=\"submit\" value=\"1\" name=\"allOn\"/></form>");
 }
 
 void setup() {
