@@ -11,14 +11,14 @@ const char* password = PASSWORD;
 
 // LED strip variables
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-uint32_t off = strip.Color(0, 0, 0);
-uint32_t red = strip.Color(0, 255, 0);
-uint32_t orange = strip.Color(0, 255, 63);
-uint32_t yellow = strip.Color(0, 255, 127);
-uint32_t green = strip.Color(0, 0, 255);
-uint32_t blue = strip.Color(255, 0, 0);
-uint32_t purple = strip.Color(255, 255, 0);
-uint32_t white = strip.Color(255, 255, 255);
+const uint32_t off = strip.Color(0, 0, 0);
+const uint32_t red = strip.Color(0, 255, 0);
+const uint32_t orange = strip.Color(0, 255, 63);
+const uint32_t yellow = strip.Color(0, 255, 127);
+const uint32_t green = strip.Color(0, 0, 255);
+const uint32_t blue = strip.Color(255, 0, 0);
+const uint32_t purple = strip.Color(255, 255, 0);
+const uint32_t white = strip.Color(255, 255, 255);
 
 void handleNotFound() {
 	server.send(404, "text/html", "<h1>404: not found</h1>");
