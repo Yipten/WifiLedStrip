@@ -12,17 +12,6 @@ IPAddress subnetMaskIP(255, 255, 255, 0);
 const char* ssid = SSID;
 const char* password = PASSWORD;
 
-// LED strip variables
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-const uint32_t off = strip.Color(0, 0, 0);
-const uint32_t red = strip.Color(255, 0, 0);
-const uint32_t orange = strip.Color(255, 63, 0);
-const uint32_t yellow = strip.Color(255, 127, 0);
-const uint32_t green = strip.Color(0, 255, 0);
-const uint32_t blue = strip.Color(0, 0, 255);
-const uint32_t purple = strip.Color(255, 0, 255);
-const uint32_t white = strip.Color(255, 255, 255);
-
 // sends an HTTP response containing the contents of the specified file
 void sendHtml(char* filename) {
 	// string to store HTML code
