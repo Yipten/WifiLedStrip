@@ -1,7 +1,9 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
-#include "Constants.h"
 #include <FS.h>
+
+#include "Constants.h"
+#include "LedStrip.h"
 
 // wifi variables
 ESP8266WebServer server(80);
@@ -45,24 +47,20 @@ void handleRoot() {
 	// get whether all LEDs should be on or off
 	uint8_t color = server.arg("color").toInt();
 	// update LEDs
-	const uint32_t* rgb;
 	switch (color) {
 		case 1:
-			rgb = &red;
+			LedStrip::fill(255, 0, 0);
 			break;
 		case 2:
-			rgb = &green;
+			LedStrip::fill(0, 255, 0);
 			break;
 		case 3:
-			rgb = &blue;
+			LedStrip::fill(0, 0, 255);
 			break;
 		default:
-			rgb = &off;
+			LedStrip::fill(0, 0, 0);
 			break;
 	}
-	for (byte i = 0; i < NUM_LEDS; i++)
-		strip.setPixelColor(i, *rgb);
-	strip.show();
 	// send HTTP response
 	sendHtml("/index.html");
 }
@@ -81,9 +79,7 @@ void setup() {
 	server.on("/", handleRoot);
 
 	// initialize LED strip
-	strip.begin();
-	strip.setBrightness(BRIGHTNESS);
-	strip.show();
+	LedStrip::initialize(NUM_LEDS, PIN, BRIGHTNESS);
 
 	// initialize SPIFFS
 	SPIFFS.begin();
