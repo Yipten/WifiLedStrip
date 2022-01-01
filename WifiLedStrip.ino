@@ -13,19 +13,19 @@ const char* ssid = SSID;
 const char* password = PASSWORD;
 
 // sends an HTTP response containing the contents of the specified file
-void sendHtml(char* filename) {
+void sendResponse(char* filetype, char* filename) {
 	// string to store HTML code
-	String html = "";
+	String content = "";
 	// open specified file from SPIFFS
 	File file = SPIFFS.open(filename, "r");
 	// avoid SRAM fragmentation (because of large string)
-	html.reserve(file.available());
+	content.reserve(file.available());
 	// build string byte-by-byte
 	while (file.available())
-		html += (char)file.read();
+		content += (char)file.read();
 	file.close();
 	// send response
-	server.send(200, "text/html", html);
+	server.send(200, filetype, content);
 }
 
 void handleNotFound() {
@@ -51,7 +51,11 @@ void handleRoot() {
 			break;
 	}
 	// send HTTP response
-	sendHtml("/index.html");
+	sendResponse("text/html", "/index.html");
+}
+
+void handleCss() {
+	sendResponse("text/css", "/style.css");
 }
 
 void setup() {
@@ -66,6 +70,7 @@ void setup() {
 	server.begin();
 	server.onNotFound(handleNotFound);
 	server.on("/", handleRoot);
+	server.on("/style.css", handleCss);
 
 	// initialize LED strip
 	LedStrip::initialize(NUM_LEDS, PIN, BRIGHTNESS);
