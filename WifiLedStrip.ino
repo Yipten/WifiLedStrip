@@ -33,23 +33,12 @@ void handleNotFound() {
 }
 
 void handleRoot() {
-	// get whether all LEDs should be on or off
-	uint8_t color = server.arg("color").toInt();
+	// get RGB values
+	uint8_t r = server.arg("red").toInt();
+	uint8_t g = server.arg("green").toInt();
+	uint8_t b = server.arg("blue").toInt();
 	// update LEDs
-	switch (color) {
-		case 1:
-			LedStrip::fill(255, 0, 0);
-			break;
-		case 2:
-			LedStrip::fill(0, 255, 0);
-			break;
-		case 3:
-			LedStrip::fill(0, 0, 255);
-			break;
-		default:
-			LedStrip::fill(0, 0, 0);
-			break;
-	}
+	LedStrip::fill(r, g, b);
 	// send HTTP response
 	sendResponse("text/html", "/index.html");
 }
