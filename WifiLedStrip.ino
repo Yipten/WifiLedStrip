@@ -47,6 +47,10 @@ void handleCss() {
 	sendResponse("text/css", "/style.css");
 }
 
+void handleJS() {
+	sendResponse("text/javascript", "/submitForm.js");
+}
+
 void setup() {
 	delay(1000);
 
@@ -60,6 +64,7 @@ void setup() {
 	server.onNotFound(handleNotFound);
 	server.on("/", handleRoot);
 	server.on("/style.css", handleCss);
+	server.on("/submitForm.js", handleJS);
 
 	// initialize LED strip
 	LedStrip::initialize(NUM_LEDS, PIN, BRIGHTNESS);
