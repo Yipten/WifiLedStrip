@@ -33,14 +33,18 @@ void handleNotFound() {
 }
 
 void handleRoot() {
+	sendResponse("text/html", "/index.html");
+}
+
+void handleSubmit() {
 	// get RGB values
 	uint8_t r = server.arg("red").toInt();
 	uint8_t g = server.arg("green").toInt();
 	uint8_t b = server.arg("blue").toInt();
 	// update LEDs
 	LedStrip::fill(r, g, b);
-	// send HTTP response
-	sendResponse("text/html", "/index.html");
+
+	server.send(200);
 }
 
 void handleCss() {
@@ -63,6 +67,7 @@ void setup() {
 	server.begin();
 	server.onNotFound(handleNotFound);
 	server.on("/", handleRoot);
+	server.on("/submit", handleSubmit);
 	server.on("/style.css", handleCss);
 	server.on("/submitForm.js", handleJS);
 

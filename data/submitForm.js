@@ -1,12 +1,33 @@
+// event listener for submit button
 const submitButton = document.getElementById("submitButton");
 submitButton.addEventListener("click", submitForm);
 
+// get array of input element names
+const mainForm = document.getElementById("mainForm");
+const inputElements = mainForm.elements;
+const inputNames = [];
+for (let i = 0; i < inputElements.length; i++) {
+	inputNames[i] = inputElements[i].name;
+}
+
+// sends a POST request containing user input using AJAX
 function submitForm() {
 	const xhttp = new XMLHttpRequest();
-	xhttp.onload = function() {
-		alert("Changes applied!");
-	}
-	// TODO: the request doesn't seem to be getting sent
-	xhttp.open("POST", "/", true);
-	xhttp.send("red=0&green=111&blue=95");
+	xhttp.open("POST", "/submit", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	dataStr = getFormData();
+	xhttp.send(dataStr);
+}
+
+// generates string of user input for POST request
+function getFormData() {
+	dataStr = "";
+	inputNames.forEach(function(value, index, array) {
+		if (value) {
+			dataStr += value + "=" + inputElements[value].value + "&";
+		}
+	});
+	// remove the last ampersand
+	dataStr = dataStr.slice(0, -1);
+	return dataStr;
 }
