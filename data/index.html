@@ -6,14 +6,22 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<h1>
-			<form id="mainForm" action="." method="post">
-				<input type="range" min="0" max="255" name="red"><br>
-				<input type="range" min="0" max="255" name="green"><br>
-				<input type="range" min="0" max="255" name="blue"><br>
-				<input id="submitButton" type="button" value="Apply Changes">
-			</form>
-		</h1>
+		<form id="mainForm" action="." method="post">
+			<label for="redInput">Red:</label>
+			<input id="redInput" type="range" value="0" min="0" max="255" name="red">
+			<span id="redInputValue"></span>
+			<br>
+			<label for="greenInput">Green:</label>
+			<input id="greenInput" type="range" value="0" min="0" max="255" name="green">
+			<span id="greenInputValue"></span>
+			<br>
+			<label for="blueInput">Blue:</label>
+			<input id="blueInput" type="range" value="0" min="0" max="255" name="blue">
+			<span id="blueInputValue"></span>
+			<br>
+			<input id="submitButton" type="button" value="Apply Changes">
+		</form>
+		<script src="inputValues.js"></script>
 		<script src="submitForm.js"></script>
 	</body>
 </html>
