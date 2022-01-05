@@ -2,15 +2,27 @@
 <html>
 	<head>
 		<title>Wi-Fi LED Strip</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<h1>
-			<form action="." method="get">
-				<button type="submit" value="0" name="color" style="font-size: 96px">off</button><br>
-				<button type="submit" value="1" name="color" style="font-size: 96px">red</button><br>
-				<button type="submit" value="2" name="color" style="font-size: 96px">green</button><br>
-				<button type="submit" value="3" name="color" style="font-size: 96px">blue</button>
-			</form>
-		</h1>
+		<form id="mainForm" action="." method="post">
+			<label for="redInput">Red:</label>
+			<br>
+			<input id="redInput" type="range" value="0" min="0" max="255" name="red">
+			<span id="redInputValue"></span>
+			<br>
+			<label for="greenInput">Green:</label>
+			<br>
+			<input id="greenInput" type="range" value="0" min="0" max="255" name="green">
+			<span id="greenInputValue"></span>
+			<br>
+			<label for="blueInput">Blue:</label>
+			<br>
+			<input id="blueInput" type="range" value="0" min="0" max="255" name="blue">
+			<span id="blueInputValue"></span>
+		</form>
+		<script src="inputValues.js"></script>
+		<script src="submitForm.js"></script>
 	</body>
 </html>

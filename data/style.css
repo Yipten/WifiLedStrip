@@ -1,0 +1,8 @@
+* {
+	vertical-align: middle;
+}
+
+input[type="range"] {
+	width: 80%;
+	max-width: 512px;
+}

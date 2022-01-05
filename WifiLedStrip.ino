@@ -13,19 +13,19 @@ const char* ssid = SSID;
 const char* password = PASSWORD;
 
 // sends an HTTP response containing the contents of the specified file
-void sendHtml(char* filename) {
+void sendResponse(char* filetype, char* filename) {
 	// string to store HTML code
-	String html = "";
+	String content = "";
 	// open specified file from SPIFFS
 	File file = SPIFFS.open(filename, "r");
 	// avoid SRAM fragmentation (because of large string)
-	html.reserve(file.available());
+	content.reserve(file.available());
 	// build string byte-by-byte
 	while (file.available())
-		html += (char)file.read();
+		content += (char)file.read();
 	file.close();
 	// send response
-	server.send(200, "text/html", html);
+	server.send(200, filetype, content);
 }
 
 void handleNotFound() {
@@ -33,25 +33,30 @@ void handleNotFound() {
 }
 
 void handleRoot() {
-	// get whether all LEDs should be on or off
-	uint8_t color = server.arg("color").toInt();
+	sendResponse("text/html", "/index.html");
+}
+
+void handleSubmit() {
+	// get RGB values
+	uint8_t r = server.arg("red").toInt();
+	uint8_t g = server.arg("green").toInt();
+	uint8_t b = server.arg("blue").toInt();
 	// update LEDs
-	switch (color) {
-		case 1:
-			LedStrip::fill(255, 0, 0);
-			break;
-		case 2:
-			LedStrip::fill(0, 255, 0);
-			break;
-		case 3:
-			LedStrip::fill(0, 0, 255);
-			break;
-		default:
-			LedStrip::fill(0, 0, 0);
-			break;
-	}
-	// send HTTP response
-	sendHtml("/index.html");
+	LedStrip::fill(r, g, b);
+
+	server.send(200);
+}
+
+void handleCss() {
+	sendResponse("text/css", "/style.css");
+}
+
+void handleInputValues() {
+	sendResponse("text/javascript", "/inputValues.js");
+}
+
+void handleSubmitForm() {
+	sendResponse("text/javascript", "/submitForm.js");
 }
 
 void setup() {
@@ -66,6 +71,10 @@ void setup() {
 	server.begin();
 	server.onNotFound(handleNotFound);
 	server.on("/", handleRoot);
+	server.on("/submit", handleSubmit);
+	server.on("/style.css", handleCss);
+	server.on("/inputValues.js", handleInputValues);
+	server.on("/submitForm.js", handleSubmitForm);
 
 	// initialize LED strip
 	LedStrip::initialize(NUM_LEDS, PIN, BRIGHTNESS);
