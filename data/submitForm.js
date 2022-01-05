@@ -1,12 +1,9 @@
-// event listener for submit button
-const submitButton = document.getElementById("submitButton");
-submitButton.addEventListener("click", submitForm);
-
-// get array of input element names
+// add event listeners & get array of input element names
 const mainForm = document.getElementById("mainForm");
 const inputElements = mainForm.elements;
 const inputNames = [];
 for (let i = 0; i < inputElements.length; i++) {
+	inputElements[i].addEventListener("change", submitForm);
 	inputNames[i] = inputElements[i].name;
 }
 
