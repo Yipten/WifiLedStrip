@@ -1,5 +1,4 @@
 #include <ESP8266WebServer.h>
-#include <Adafruit_NeoPixel.h>
 #include <FS.h>
 
 #include "Constants.h"
@@ -42,7 +41,9 @@ void handleSubmit() {
 	uint8_t g = server.arg("green").toInt();
 	uint8_t b = server.arg("blue").toInt();
 	// update LEDs
-	LedStrip::fill(r, g, b);
+	//LedStrip::fill(r, g, b);
+	LedStrip::setMode(MODE_SOLID_ON);
+	LedStrip::setColor(r, g, b);
 
 	server.send(200);
 }
@@ -85,5 +86,6 @@ void setup() {
 
 void loop() {
 	server.handleClient();
+	LedStrip::update();
 }
 

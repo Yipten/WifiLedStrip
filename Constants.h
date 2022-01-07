@@ -7,3 +7,8 @@
 #define NUM_LEDS 144
 #define BRIGHTNESS 15
 
+// display modes
+#define MODE_OFF 0
+#define MODE_SOLID_ON 1
+#define MODE_FLASH 2
+
