@@ -28,3 +28,4 @@ function getFormData() {
 	dataStr = dataStr.slice(0, -1);
 	return dataStr;
 }
+

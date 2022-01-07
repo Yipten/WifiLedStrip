@@ -23,3 +23,4 @@ function updateBlueInputValue() {
 updateRedInputValue();
 updateGreenInputValue();
 updateBlueInputValue();
+
