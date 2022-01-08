@@ -42,8 +42,9 @@ void handleSubmit() {
 	uint8_t b = server.arg("blue").toInt();
 	// update LEDs
 	//LedStrip::fill(r, g, b);
-	LedStrip::setMode(MODE_SOLID_ON);
+	LedStrip::setMode(MODE_FLASH);
 	LedStrip::setColor(r, g, b);
+	LedStrip::setTimeDelay(250);
 
 	server.send(200);
 }

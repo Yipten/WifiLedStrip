@@ -2,7 +2,9 @@
 
 Adafruit_NeoPixel LedStrip::strip;
 uint32_t LedStrip::timestamp;
+uint32_t LedStrip::timeDelay;
 uint8_t LedStrip::mode;
+uint8_t LedStrip::step;
 bool LedStrip::done;
 uint32_t LedStrip::color;
 
@@ -44,6 +46,10 @@ void LedStrip::setMode(uint8_t m) {
 	done = false;
 }
 
+void LedStrip::setTimeDelay(uint32_t ms) {
+	timeDelay = ms;
+}
+
 void LedStrip::setColor(uint8_t r, uint8_t g, uint8_t b) {
 	color = strip.Color(r, g, b);
 }
@@ -56,6 +62,11 @@ void LedStrip::fill(uint32_t c) {
 }
 
 void LedStrip::flash() {
-	// TODO: write this function
+	if (millis() - timestamp >= timeDelay) {
+		timestamp = millis();
+		// two steps (on & off)
+		fill(step ? strip.Color(0, 0, 0) : color);
+		step = !step;
+	}
 }
 
